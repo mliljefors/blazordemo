@@ -72,8 +72,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                //return RedirectToPage("./ResetPasswordConfirmation");
-                ModelState.AddModelError(string.Empty, "user does not exist");
+                return RedirectToPage("./ResetPasswordConfirmation");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
