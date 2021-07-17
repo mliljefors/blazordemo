@@ -209,3 +209,7 @@ C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\Microsoft.AspNetCore.Dia
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ForgotPassword.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\SendGrid.dll
+C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\StarkbankEcdsa.dll
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs

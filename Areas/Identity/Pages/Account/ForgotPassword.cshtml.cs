@@ -43,9 +43,8 @@ namespace blazordemo.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
-                    // user does not exist or is not confirmed
+                    // the user does not exist or is not confirmed
                     ModelState.AddModelError(string.Empty, "user does not exist");
-                    return Page();
                 }
 
                 // For more information on how to enable account confirmation and password reset please 

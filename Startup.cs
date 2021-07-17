@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using blazordemo.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using blazordemo.Services;
 
 namespace blazordemo
 {
@@ -25,6 +27,9 @@ namespace blazordemo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
@@ -40,7 +45,7 @@ namespace blazordemo
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts(); // note : recommended, but not required
+                // app.UseHsts(); // note : recommended, but not required
             }
 
             app.UseHttpsRedirection();
