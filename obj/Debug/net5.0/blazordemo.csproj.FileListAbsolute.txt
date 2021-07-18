@@ -213,3 +213,6 @@ C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\SendGrid.dll
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\StarkbankEcdsa.dll
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Logout.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
