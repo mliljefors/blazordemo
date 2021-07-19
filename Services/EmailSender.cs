@@ -17,7 +17,7 @@ namespace blazordemo.Services
             Options = optionsAccessor.Value;
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public AuthMessageSenderOptions Options { get; }
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
@@ -27,9 +27,10 @@ namespace blazordemo.Services
         public Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
+
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress(Options.SendGridUser, Options.SendGridUser),
+                From = new EmailAddress(Options.SendGridUser, Options.SendGridUserName),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

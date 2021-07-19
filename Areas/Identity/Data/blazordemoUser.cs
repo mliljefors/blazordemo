@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace blazordemo.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the blazordemoUser class
     public class blazordemoUser : IdentityUser
     {
+
     }
 }

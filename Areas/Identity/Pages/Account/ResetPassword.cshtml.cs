@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using blazordemo.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -17,10 +18,12 @@ namespace blazordemo.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<blazordemoUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public ResetPasswordModel(UserManager<blazordemoUser> userManager)
+        public ResetPasswordModel(UserManager<blazordemoUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -78,6 +81,8 @@ namespace blazordemo.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                await _emailSender.SendEmailAsync(Input.Email, "Changed Password", "This confirms that your password was changed.");
+
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
@@ -85,6 +90,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
     }
