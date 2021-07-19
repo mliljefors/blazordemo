@@ -38,33 +38,11 @@ namespace blazordemo
             services.Configure<DataProtectionTokenProviderOptions>(o =>
                o.TokenLifespan = TimeSpan.FromHours(3)); // set data protection tokens timeout period to 3 hours
 
-            //services.AddDefaultIdentity<IdentityUser>(config =>
-            //{
-            //    config.SignIn.RequireConfirmedEmail = true;
-            //    config.Tokens.ProviderMap.Add("CustomEmailConfirmation",
-            //        new TokenProviderDescriptor(
-            //            typeof(CustomEmailConfirmationTokenProvider<IdentityUser>)));
-            //    config.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
-            //});
-
-            // services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>(); // use custom email token provider to change timeout to 4 hours
-
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddSessionStateTempDataProvider();
 
             services.AddSession();
         }

@@ -86,7 +86,6 @@ C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAn
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.csprojAssemblyReference.cache
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.AssemblyInfoInputs.cache
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.AssemblyInfo.cs
@@ -96,11 +95,8 @@ C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorComponen
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\App.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Pages\Counter.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Pages\FetchData.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Pages\Index.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\_Imports.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Shared\MainLayout.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\Shared\NavMenu.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorComponent.output.cache
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\RazorDeclaration\blazordemo.dll
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.TagHelpers.input.cache
@@ -109,11 +105,8 @@ C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorCoreGene
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\App.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Pages\Counter.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Pages\FetchData.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Pages\Index.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Shared\SurveyPrompt.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\_Imports.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Shared\MainLayout.razor.g.cs
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Shared\NavMenu.razor.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Pages\_Host.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorAssemblyInfo.cache
@@ -121,7 +114,6 @@ C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorAssembly
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\staticwebassets\blazordemo.StaticWebAssets.Manifest.cache
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\staticwebassets\blazordemo.StaticWebAssets.xml
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
-C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\scopedcss\bundle\blazordemo.styles.css
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\scopedcss\projectbundle\blazordemo.bundle.scp.css
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.RazorTargetAssemblyInfo.cache
