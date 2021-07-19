@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using blazordemo.Data;
+using System.Linq;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<blazordemoUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IdentityLibrary _identityLibrary;
 
         public ForgotPasswordModel(UserManager<blazordemoUser> userManager, IEmailSender emailSender)
         {
-            _userManager = userManager;
-            _emailSender = emailSender;
+            _identityLibrary = new IdentityLibrary(userManager, emailSender);
         }
 
         [BindProperty]
@@ -40,10 +40,10 @@ namespace blazordemo.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
+                var user = await _identityLibrary.UserManager.FindByEmailAsync(Input.Email);
+                if (user != null && await _identityLibrary.UserManager.IsEmailConfirmedAsync(user))
                 {
-                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var code = await _identityLibrary.UserManager.GeneratePasswordResetTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ResetPassword",
@@ -51,10 +51,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
                         values: new { area = "Identity", code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(
-                        Input.Email,
-                        "Reset Password",
-                        $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _identityLibrary.SendEmail(IdentityLibrary.ContentType.ForgotPassword, Input.Email, callbackUrl);
                 }
 
                 return RedirectToPage("./ForgotPasswordConfirmation");

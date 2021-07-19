@@ -17,13 +17,11 @@ namespace blazordemo.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<blazordemoUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IdentityLibrary _identityLibrary;
 
         public ResetPasswordModel(UserManager<blazordemoUser> userManager, IEmailSender emailSender)
         {
-            _userManager = userManager;
-            _emailSender = emailSender;
+            _identityLibrary = new IdentityLibrary(userManager, emailSender);
         }
 
         [BindProperty]
@@ -71,17 +69,17 @@ namespace blazordemo.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await _identityLibrary.UserManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            var result = await _identityLibrary.UserManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                await _emailSender.SendEmailAsync(Input.Email, "Changed Password", "This confirms that your password was changed.");
+                await _identityLibrary.SendEmail(IdentityLibrary.ContentType.ChangedPassword, Input.Email, null);
 
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
