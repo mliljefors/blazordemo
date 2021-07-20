@@ -56,7 +56,9 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
+            await _identityLibrary.OnGetAsync(returnUrl, null, null, null);
+
+            ReturnUrl = _identityLibrary.Result;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

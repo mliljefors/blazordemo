@@ -76,6 +76,8 @@ namespace blazordemo.Areas.Identity
             blazordemoUser l_pUser;
             IdentityResult l_pResult;
 
+            Result = null;
+
             switch (_contentType)
             {
                 case ContentType.Login: // requires : UserID, Code
@@ -107,6 +109,12 @@ namespace blazordemo.Areas.Identity
                 
                 break;
 
+                case ContentType.Register: // requires : ReturnURL
+
+                    Result = i_sReturnURL;
+
+                    break;
+
                 case ContentType.RegisterConfirmation: // requires : Email
 
                     if (i_sEmail == null) return _pageModel.RedirectToPage("/Index");
@@ -124,6 +132,8 @@ namespace blazordemo.Areas.Identity
         {
             blazordemoUser l_pUser;
             IdentityResult l_pResult;
+
+            Result = null;
 
             if (_pageModel.ModelState.IsValid)
             {
