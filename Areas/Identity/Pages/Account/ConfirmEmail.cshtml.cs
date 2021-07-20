@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
-using blazordemo.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
+using blazordemo.Areas.Identity.Data;
+using static blazordemo.Areas.Identity.IdentityLibrary;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<blazordemoUser> _userManager;
+        private readonly IdentityLibrary _identityLibrary;
 
         public ConfirmEmailModel(UserManager<blazordemoUser> userManager)
         {
-            _userManager = userManager;
+            _identityLibrary = new IdentityLibrary(ContentType.ConfirmEmail, this, userManager, null, null);
         }
 
         [TempData]
@@ -27,21 +29,11 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            if (userId == null || code == null)
-            {
-                return RedirectToPage("/Index");
-            }
+            IActionResult l_pResult = await _identityLibrary.OnGetAsync(null, userId, code, null);
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+            StatusMessage = _identityLibrary.Result;
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            return Page();
+            return l_pResult;
         }
     }
 }

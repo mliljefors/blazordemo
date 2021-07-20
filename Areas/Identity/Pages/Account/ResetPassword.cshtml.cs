@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
-using blazordemo.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
+using blazordemo.Areas.Identity.Data;
+using static blazordemo.Areas.Identity.IdentityLibrary;
+using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace blazordemo.Areas.Identity.Pages.Account
@@ -21,7 +23,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public ResetPasswordModel(UserManager<blazordemoUser> userManager, IEmailSender emailSender)
         {
-            _identityLibrary = new IdentityLibrary(userManager, emailSender);
+            _identityLibrary = new IdentityLibrary(ContentType.ResetPassword, this, userManager, emailSender, null);
         }
 
         [BindProperty]
@@ -64,32 +66,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var user = await _identityLibrary.UserManager.FindByEmailAsync(Input.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
-            }
-
-            var result = await _identityLibrary.UserManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-            if (result.Succeeded)
-            {
-                await _identityLibrary.SendEmail(IdentityLibrary.ContentType.ChangedPassword, Input.Email, null);
-
-                return RedirectToPage("./ResetPasswordConfirmation");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
-            return Page();
+            return await _identityLibrary.OnPostAsync(null, null, Input.Code, Input.Email, Input.Password, false);
         }
     }
 }

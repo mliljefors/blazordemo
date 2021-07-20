@@ -1,44 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
-using blazordemo.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
+using blazordemo.Areas.Identity.Data;
+using static blazordemo.Areas.Identity.IdentityLibrary;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<blazordemoUser> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        private readonly IdentityLibrary _identityLibrary;
 
-        public LogoutModel(SignInManager<blazordemoUser> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<blazordemoUser> signInManager)
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            _identityLibrary = new IdentityLibrary(ContentType.Logout, this, null, null, signInManager);
         }
 
         public void OnGet()
         {
+
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToPage();
-            }
+            return await _identityLibrary.OnPostAsync(returnUrl, null, null, null, null, false);
         }
     }
 }

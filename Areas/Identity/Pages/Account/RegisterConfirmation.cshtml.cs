@@ -1,25 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using blazordemo.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
+using blazordemo.Areas.Identity.Data;
+using static blazordemo.Areas.Identity.IdentityLibrary;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<blazordemoUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly IdentityLibrary _identityLibrary;
 
         public RegisterConfirmationModel(UserManager<blazordemoUser> userManager, IEmailSender sender)
         {
-            _userManager = userManager;
-            _sender = sender;
+            _identityLibrary = new IdentityLibrary(ContentType.RegisterConfirmation, this, userManager, sender, null);
         }
 
         public string Email { get; set; }
@@ -30,21 +32,12 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            if (email == null)
-            {
-                return RedirectToPage("/Index");
-            }
+            IActionResult l_pResult = await _identityLibrary.OnGetAsync(returnUrl, null, null, email);
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with email '{email}'.");
-            }
-
-            Email = email;
+            Email = email; 
             DisplayConfirmAccountLink = false;
 
-            return Page();
+            return l_pResult;
         }
     }
 }
