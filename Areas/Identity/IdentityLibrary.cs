@@ -240,6 +240,9 @@ namespace blazordemo.Areas.Identity
 
                         l_pUser = await _userManager.FindByEmailAsync(i_sEmail);
 
+                        // check that the user is registered
+                        // even if the user is not registered, redirect to confirmation page anyways
+
                         if (l_pUser != null && await _userManager.IsEmailConfirmedAsync(l_pUser))
                         {
                             // send email with generated reset password link
