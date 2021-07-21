@@ -9,9 +9,15 @@ namespace blazordemo.Data
     public class SQLiteDBContext : DbContext
     {
         public DbSet<EmailContent> EmailContents { get; set; }
+        public DbSet<OneTimePassword> OneTimePasswords { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite("Data Source=blazordemo.db");
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<EmailContent>().ToTable("EmailContents");
+        {
+            modelBuilder.Entity<EmailContent>().ToTable("EmailContents");
+            modelBuilder.Entity<OneTimePassword>().ToTable("OneTimePasswords");
+        }
     }
 }

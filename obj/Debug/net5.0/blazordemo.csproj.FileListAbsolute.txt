@@ -205,3 +205,5 @@ C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pag
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Logout.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.csprojAssemblyReference.cache
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\OneTimePasswordConfirmation.cshtml.g.cs
+C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmOneTimePassword.cshtml.g.cs

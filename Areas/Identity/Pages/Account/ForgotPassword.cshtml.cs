@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using blazordemo.Areas.Identity.Data;
 using static blazordemo.Areas.Identity.IdentityLibrary;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
@@ -35,8 +36,8 @@ namespace blazordemo.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {
-            return await _identityLibrary.OnPostAsync(null, null, Input.Email, null, false);
+        {            
+            return await _identityLibrary.OnPostAsync(null, null, Input.Email, null, (Request.Form["button2"].Count == 1));
         }
     }
 }
