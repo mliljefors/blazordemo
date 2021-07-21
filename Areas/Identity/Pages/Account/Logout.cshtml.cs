@@ -31,7 +31,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            return await _identityLibrary.OnPostAsync(returnUrl, null, null, null, null, false);
+            return await _identityLibrary.OnPostAsync(returnUrl, null, null, null, false);
         }
     }
 }

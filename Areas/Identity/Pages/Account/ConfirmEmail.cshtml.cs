@@ -29,7 +29,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            IActionResult l_pResult = await _identityLibrary.OnGetAsync(null, userId, code, null);
+            IActionResult l_pResult = await _identityLibrary.OnGetAsync(null, code, userId);
 
             StatusMessage = _identityLibrary.Result;
 

@@ -56,14 +56,14 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            await _identityLibrary.OnGetAsync(returnUrl, null, null, null);
+            await _identityLibrary.OnGetAsync(returnUrl, null, null);
 
             ReturnUrl = _identityLibrary.Result;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            return await _identityLibrary.OnPostAsync(returnUrl, null, null, Input.Email, Input.Password, false);
+            return await _identityLibrary.OnPostAsync(returnUrl, null, Input.Email, Input.Password, false);
         }
     }
 }

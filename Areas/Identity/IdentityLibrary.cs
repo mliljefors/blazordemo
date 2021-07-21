@@ -19,13 +19,15 @@ namespace blazordemo.Areas.Identity
     {
         public enum ContentType
         {
-            ConfirmEmail,
-            ForgotPassword,
-            ForgotPasswordConfirmation,
             Login,
             Logout,
+
             Register,
             RegisterConfirmation,
+            ConfirmEmail,
+
+            ForgotPassword,
+            ForgotPasswordConfirmation,
             ResetPassword,
             ResetPasswordConfirmation,
         }
@@ -33,6 +35,7 @@ namespace blazordemo.Areas.Identity
         public enum ResultType
         {
             none,
+
             RedirectToPage,
             NotFound,
             LocalRedirect,
@@ -61,9 +64,13 @@ namespace blazordemo.Areas.Identity
         }
 
         public async Task SendEmail(string i_sEmail, string i_sCallbackURL)
-        {
+        {   
+            // read email content from database
+
             SQLiteDBContext l_pContext = new SQLiteDBContext();
             EmailContent l_pContent = l_pContext.EmailContents.Single(s => s.Type == _contentType.ToString());
+
+            // send email with content
 
             await _emailSender.SendEmailAsync(
                 i_sEmail,
@@ -71,7 +78,7 @@ namespace blazordemo.Areas.Identity
                 l_pContent.Body + ((i_sCallbackURL != null) ? "<br>" + $"<a href='{HtmlEncoder.Default.Encode(i_sCallbackURL)}'>Reset Password</a>" : ""));
         }
 
-        public async Task<IActionResult> OnGetAsync(string i_sReturnURL, string i_sUserID, string i_sCode, string i_sEmail)
+        public async Task<IActionResult> OnGetAsync(string i_sReturnURL, string i_sCode, string i_sEmail)
         {
             blazordemoUser l_pUser;
             IdentityResult l_pResult;
@@ -96,15 +103,20 @@ namespace blazordemo.Areas.Identity
 
                     break;
 
-                case ContentType.ConfirmEmail: // requires : UserID, Code
+                case ContentType.ConfirmEmail: // requires : Email, Code
 
-                    if (i_sUserID == null || i_sCode == null) return _pageModel.RedirectToPage("/Index");
+                    if (i_sEmail == null || i_sCode == null) return _pageModel.RedirectToPage("/Index");
 
-                    l_pUser = await _userManager.FindByIdAsync(i_sUserID);
-                    if (l_pUser == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sUserID}'.");
+                    // find specified user by email
+
+                    l_pUser = await _userManager.FindByIdAsync(i_sEmail);
+                    if (l_pUser == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
                     
+                    // confirm the code that was sent via email link URL
+
                     i_sCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(i_sCode));
                     l_pResult = await _userManager.ConfirmEmailAsync(l_pUser, i_sCode);
+                    
                     Result = l_pResult.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
                 
                 break;
@@ -119,8 +131,10 @@ namespace blazordemo.Areas.Identity
 
                     if (i_sEmail == null) return _pageModel.RedirectToPage("/Index");
 
+                    // find specified user by email
+
                     l_pUser = await _userManager.FindByEmailAsync(i_sEmail);
-                    if (l_pUser == null) return _pageModel.NotFound($"Unable to load user with email '{i_sEmail}'.");
+                    if (l_pUser == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
                     
                 break;
             }
@@ -128,7 +142,7 @@ namespace blazordemo.Areas.Identity
             return _pageModel.Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string i_sReturnURL, string i_sUserID, string i_sCode, string i_sEmail, string i_sPassword, bool i_bRemember)
+        public async Task<IActionResult> OnPostAsync(string i_sReturnURL, string i_sCode, string i_sEmail, string i_sPassword, bool i_bRemember)
         {
             blazordemoUser l_pUser;
             IdentityResult l_pResult;
@@ -142,6 +156,8 @@ namespace blazordemo.Areas.Identity
                     case ContentType.Login: // requires : ReturnURL, Email, Password, Remember
 
                         i_sReturnURL ??= _pageModel.Url.Content("~/");
+
+                        // sign in the specified user
 
                         var signInResult = await _signInManager.PasswordSignInAsync(i_sEmail, i_sPassword, i_bRemember, lockoutOnFailure: false);
                         
@@ -162,6 +178,8 @@ namespace blazordemo.Areas.Identity
 
                     case ContentType.Logout: // requires : ReturnURL
 
+                        // sign out the current user
+
                         await _signInManager.SignOutAsync();
 
                         if (i_sReturnURL != null)
@@ -177,11 +195,15 @@ namespace blazordemo.Areas.Identity
 
                         i_sReturnURL ??= _pageModel.Url.Content("~/");
 
-                        l_pUser = new blazordemoUser { UserName = i_sEmail, Email = i_sEmail };
+                        // create the specified user
 
+                        l_pUser = new blazordemoUser { UserName = i_sEmail, Email = i_sEmail };
                         l_pResult = await _userManager.CreateAsync(l_pUser, i_sPassword);
+
                         if (l_pResult.Succeeded)
                         {
+                            // send email with registration confirmation link
+
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(l_pUser);
                             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                             var callbackUrl = _pageModel.Url.Page(
@@ -202,6 +224,8 @@ namespace blazordemo.Areas.Identity
                                 return _pageModel.LocalRedirect(i_sReturnURL);
                             }
                         }
+                        
+                        // display any errors
 
                         foreach (var error in l_pResult.Errors)
                         {
@@ -212,9 +236,14 @@ namespace blazordemo.Areas.Identity
 
                     case ContentType.ForgotPassword: // requires : Email
 
+                        // find specified user by email
+
                         l_pUser = await _userManager.FindByEmailAsync(i_sEmail);
+
                         if (l_pUser != null && await _userManager.IsEmailConfirmedAsync(l_pUser))
                         {
+                            // send email with generated reset password link
+
                             var code = await _userManager.GeneratePasswordResetTokenAsync(l_pUser);
                             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                             var callbackUrl = _pageModel.Url.Page("/Account/ResetPassword", pageHandler: null, values: new { area = "Identity", code }, protocol: _pageModel.Request.Scheme);
@@ -226,20 +255,25 @@ namespace blazordemo.Areas.Identity
 
                     case ContentType.ResetPassword: // requires : Email, Password, Code
 
+                        // find specified user by email
+                        // even if the user does not exist, redirect to confirmation page anyways
+
                         l_pUser = await _userManager.FindByEmailAsync(i_sEmail);
-                        if (l_pUser == null)
-                        {
-                            // don't reveal that the user does not exist
-                            return _pageModel.RedirectToPage("./ResetPasswordConfirmation");
-                        }
+                        if (l_pUser == null) return _pageModel.RedirectToPage("./ResetPasswordConfirmation");
+                        
+                        // reset password
 
                         l_pResult = await _userManager.ResetPasswordAsync(l_pUser, i_sCode, i_sPassword);
                         if (l_pResult.Succeeded)
                         {
+                            // send email with confirmation of password change
+
                             await SendEmail(i_sEmail, null);
 
                             return _pageModel.RedirectToPage("./ResetPasswordConfirmation");
                         }
+
+                        // display any errors
 
                         foreach (var error in l_pResult.Errors)
                         {

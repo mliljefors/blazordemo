@@ -66,7 +66,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            return await _identityLibrary.OnPostAsync(null, null, Input.Code, Input.Email, Input.Password, false);
+            return await _identityLibrary.OnPostAsync(null, Input.Code, Input.Email, Input.Password, false);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            IActionResult l_pResult = await _identityLibrary.OnGetAsync(returnUrl, null, null, email);
+            IActionResult l_pResult = await _identityLibrary.OnGetAsync(returnUrl, null, email);
 
             Email = email; 
             DisplayConfirmAccountLink = false;
