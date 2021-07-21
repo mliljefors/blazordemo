@@ -17,6 +17,8 @@ namespace blazordemo.Areas.Identity
 {
     public class IdentityLibrary
     {
+        private const string IndexPage = "/_Host";
+
         public enum ContentType
         {
             Login,
@@ -139,14 +141,16 @@ namespace blazordemo.Areas.Identity
                 l_pContent.Body + ((i_sCallbackURL != null) ? "<br>" + $"<a href='{HtmlEncoder.Default.Encode(i_sCallbackURL)}'>" + l_pContent.Subject + "</a>" : ""));
         }
 
-        public async Task<blazordemoUser> FindUserByID(string i_sUserID)
+        public async Task<blazordemoUser> FindUserByID(string i_sUserID, string i_sEmail)
         {
             blazordemoUser l_pUser;
+            bool l_bFindByUser = (i_sUserID != null);
+
+            if (l_bFindByUser ? (i_sUserID == null) : (i_sEmail == null)) return null;
 
             // find specified user by email
-
-            if (i_sUserID == null) return null;
-            l_pUser = await _userManager.FindByIdAsync(i_sUserID);
+            
+            l_pUser = l_bFindByUser ? await _userManager.FindByIdAsync(i_sUserID) : await _userManager.FindByEmailAsync(i_sEmail);
             if (l_pUser == null) return null;
 
             return l_pUser;
@@ -187,9 +191,11 @@ namespace blazordemo.Areas.Identity
 
                 case ContentType.ConfirmEmail: // requires : Email, Code
 
-                    if (i_sCode == null) return _pageModel.RedirectToPage("./Index");
+                    if (i_sEmail == null || i_sCode == null) return _pageModel.RedirectToPage(IndexPage);
 
-                    if((l_pUser = await FindUserByID(i_sEmail)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
+                    // find the specified user
+
+                    if((l_pUser = await FindUserByID(i_sEmail, null)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
 
                     // validate the token
 
@@ -202,9 +208,11 @@ namespace blazordemo.Areas.Identity
 
                 case ContentType.ConfirmOneTimePassword: // requires : Email, Code
 
-                    if (i_sCode == null) return _pageModel.RedirectToPage("./Index");
+                    if (i_sEmail == null || i_sCode == null) return _pageModel.RedirectToPage(IndexPage);
 
-                    if ((l_pUser = await FindUserByID(i_sEmail)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
+                    // find the specified user
+
+                    if ((l_pUser = await FindUserByID(i_sEmail, null)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
 
                     // validate the OTP code
 
@@ -220,8 +228,12 @@ namespace blazordemo.Areas.Identity
 
                         return await SignInAsync(l_pUser, i_sReturnURL);
                     }
+                    else
+                    {
+                        // validation failed, reset to top page
 
-                    break;
+                        return _pageModel.RedirectToPage(IndexPage);
+                    }
 
                 case ContentType.Register: // requires : ReturnURL
 
@@ -230,8 +242,12 @@ namespace blazordemo.Areas.Identity
                     break;
 
                 case ContentType.RegisterConfirmation: // requires : Email
+                    
+                    if (i_sEmail == null) return _pageModel.RedirectToPage(IndexPage);
 
-                    if ((l_pUser = await FindUserByID(i_sEmail)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
+                    // find the specified user by email
+                    
+                    if ((l_pUser = await FindUserByID(null, i_sEmail)) == null) return _pageModel.NotFound($"Unable to load user with email '{i_sEmail}'.");
 
                     break;
             }
