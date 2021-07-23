@@ -206,6 +206,19 @@ namespace blazordemo.Areas.Identity
                 
                 break;
 
+                case ContentType.ResetPassword: // requires : Email, Code
+
+                    if (i_sCode == null) return _pageModel.BadRequest("A code must be supplied for password reset.");
+                    if (i_sEmail == null) return _pageModel.RedirectToPage(IndexPage);
+
+                    // find the specified user
+
+                    if ((l_pUser = await FindUserByID(i_sEmail, null)) == null) return _pageModel.NotFound($"Unable to load user with ID '{i_sEmail}'.");
+
+                    Result = l_pUser.Email;
+
+                    break;
+
                 case ContentType.ConfirmOneTimePassword: // requires : Email, Code
 
                     if (i_sEmail == null || i_sCode == null) return _pageModel.RedirectToPage(IndexPage);
@@ -379,15 +392,7 @@ namespace blazordemo.Areas.Identity
 
                             // generate link for either reset password OR one-time password
 
-                            if (i_bChecked)
-                            {
-                                callbackUrl = _pageModel.Url.Page("/Account/ConfirmOneTimePassword", pageHandler: null, values: new { area = "Identity", userId = l_pUser.Id, code }, protocol: _pageModel.Request.Scheme);
-                                
-                            }
-                            else
-                            {
-                                callbackUrl = _pageModel.Url.Page("/Account/ResetPassword", pageHandler: null, values: new { area = "Identity", code }, protocol: _pageModel.Request.Scheme);
-                            }
+                            callbackUrl = _pageModel.Url.Page("/Account/" + (i_bChecked ? "ConfirmOneTimePassword" : "ResetPassword"), pageHandler: null, values: new { area = "Identity", userId = (i_bChecked ? l_pUser.Id : i_sEmail), code }, protocol: _pageModel.Request.Scheme);
 
                             // send email
 
@@ -403,7 +408,11 @@ namespace blazordemo.Areas.Identity
 
                         l_pUser = await _userManager.FindByEmailAsync(i_sEmail);
                         if (l_pUser == null) return _pageModel.RedirectToPage("./ResetPasswordConfirmation");
-                        
+
+                        // decode the code
+
+                        i_sCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(i_sCode));
+
                         // reset password
 
                         l_pResult = await _userManager.ResetPasswordAsync(l_pUser, i_sCode, i_sPassword);

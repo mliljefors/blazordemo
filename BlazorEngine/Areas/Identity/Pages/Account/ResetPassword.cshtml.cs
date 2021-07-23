@@ -13,6 +13,7 @@ using blazordemo.Areas.Identity.Data;
 using static blazordemo.Areas.Identity.IdentityLibrary;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace blazordemo.Areas.Identity.Pages.Account
 {
@@ -50,18 +51,16 @@ namespace blazordemo.Areas.Identity.Pages.Account
 
         public IActionResult OnGet(string code = null)
         {
-            if (code == null)
+            string l_sEmail = HttpContext.Request.Query["userId"];
+
+            if (code == null) return BadRequest("A code must be supplied for password reset.");
+
+            Input = new InputModel
             {
-                return BadRequest("A code must be supplied for password reset.");
-            }
-            else
-            {
-                Input = new InputModel
-                {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
-                };
-                return Page();
-            }
+                Email = l_sEmail,
+                Code = code
+            };
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

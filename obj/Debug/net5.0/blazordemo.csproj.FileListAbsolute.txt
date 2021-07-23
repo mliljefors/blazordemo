@@ -193,3 +193,4 @@ C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\BlazorEngine.Views.pdb
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\BlazorEngine.dll
 C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\BlazorEngine.pdb
 C:\Users\MarkL\Source\Repos\blazordemo\obj\Debug\net5.0\blazordemo.csprojAssemblyReference.cache
+C:\Users\MarkL\Source\Repos\blazordemo\bin\Debug\net5.0\BlazorEngine.StaticWebAssets.xml
