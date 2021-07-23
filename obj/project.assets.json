@@ -2326,6 +2326,28 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "BlazorEngine/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "5.0.8",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.8",
+          "Microsoft.AspNetCore.Identity.UI": "5.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.8",
+          "Microsoft.EntityFrameworkCore.Sqlite": "5.0.8",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
+          "SendGrid": "9.24.1"
+        },
+        "compile": {
+          "bin/placeholder/BlazorEngine.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlazorEngine.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -7862,10 +7884,16 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "BlazorEngine/1.0.0": {
+      "type": "project",
+      "path": "BlazorEngine/BlazorEngine.csproj",
+      "msbuildProject": "BlazorEngine/BlazorEngine.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "BlazorEngine >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 5.0.8",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 5.0.8",
       "Microsoft.AspNetCore.Identity.UI >= 5.0.8",
@@ -7902,7 +7930,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\MarkL\\Source\\Repos\\blazordemo\\BlazorEngine\\BlazorEngine.csproj": {
+              "projectPath": "C:\\Users\\MarkL\\Source\\Repos\\blazordemo\\BlazorEngine\\BlazorEngine.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
